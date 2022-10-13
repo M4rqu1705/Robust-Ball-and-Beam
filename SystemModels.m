@@ -2,7 +2,7 @@
 
 % Values from table 3.1 from SRV02 User Manual
 R_m = ureal("R_m", 2.6, "Percentage", 12);
-L_m = ureal("L_m", 0.18E-3, "PlusMinus", 1E-52);
+L_m = 0.18E-3;
 k_t = ureal("k_t", 7.68E-3, "Percentage", 12);
 k_m = ureal("k_m", 7.68E-3, "Percentage", 12);
 K_g = 70;
@@ -34,17 +34,14 @@ G_m = tf([K_m], [tau, 1, 0]);
 %% BB01 Model
 
 % Values from table 3.1 from BB01 User Manual
-g = 9.8;
+g = 9.81;
 L_beam = 0.4255;
 r_arm = 0.00254;
-m_b = 0.064;
+m_b = 56;
 r_b = 0.00127;
 
-% From the moment of inertia formula for a sphere:
-J_b = 2/5 * m_b * r_b^2;
-
 % Equation 2.20 from BB01 Student Workbook
-K_bb = g * m_b * r_arm * r_b^2 / (L_beam * (m_b*r_b^2 + J_b));
+K_bb = g * r_arm * r_b^2 / (7/5 * L_beam * r_b^2);
 
 % Open-loop transfer function X(s) / θ_L(s)
 % Equation 2.21 from BB01 Student Workbook
