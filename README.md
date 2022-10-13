@@ -1,6 +1,8 @@
 # Robust Ball & Beam
 
-As part of the INEL 5595 - Robust Control systems course we are working on designing a robust controller for the Quanser BB01 Ball & Beam System through loop-shaping methods and the MATLAB Robust Controls Systems toolbox.
+![Ball & Beam System](./Quanser%20BB01.png)
+
+As part of the INEL 5595 - Special Topics (Robust Control systems) course we are working on designing a robust controller for the Quanser BB01 Ball & Beam System through loop-shaping methods and the MATLAB Robust Controls Systems toolbox.
 
 We will divide the project into the following steps:
 
