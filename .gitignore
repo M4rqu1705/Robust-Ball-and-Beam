@@ -1,2 +1,5 @@
+./slprj/*
 ./.vscode
+
 *.asv
+*.slxc
