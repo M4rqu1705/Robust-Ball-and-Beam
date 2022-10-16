@@ -7,17 +7,14 @@ k_m = ureal("k_m", 7.68E-3, "Percentage", 12);
 K_g = 70;
 eta_m = ureal("eta_m", 0.69, "Percentage", 5);
 eta_g = ureal("eta_g", 0.90, "Percentage", 10);
-B_m = 0.015;
 J_m = ureal("J_m", 3.90E-7, "Percentage", 10);
-
-J_l = 0; %% COMPLETE LATER
-B_l = 0; %% Add later
 
 % Equation 1.1.18 from SRV02 Student Workbook
 J_eq = eta_g * K_g^2 * J_m + J_l;
 
 % Equation 1.1.19 from SRV02 Student Workbook
-B_eq = eta_g * K_g^2 * B_m + B_l;
+% B_eq = eta_g * K_g^2 * B_m + B_l;
+B_eq = 0.015;
 
 % Equation 1.1.27 from SRV02 Student Workbook
 B_eq_v = eta_g * K_g^2 * eta_m *  k_t * k_m / R_m + B_eq;
@@ -41,7 +38,6 @@ G_m = tf(K_m, [tau, 1, 0]);
 g = 9.81;
 L_beam = 0.4255;
 r_arm = 0.00254;
-m_b = 56;
 r_b = 0.00127;
 
 % Equation 2.20 from BB01 Student Workbook
