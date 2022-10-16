@@ -18,7 +18,7 @@ op = findop(mdl, opspec, options);
 % Establish input and output of system to be linearized
 io(1) = linio(strcat(mdl, "/Input"), 1, "input");
 % io(2) = linio(strcat(mdl, "/Ball & Beam"), 1, "output");
-io(2) = linio(strcat(mdl, "/Motor"), 1, "openoutput");
+io(2) = linio(strcat(mdl, "/Ball & Beam"), 1, "openoutput");
 
 % Linearize
 linsys = ulinearize(mdl, io, op);
@@ -37,6 +37,6 @@ close all;
 hold on;
 bode(linsys, "r-");
 bode(linsys.NominalValue * (1 + l_m), "g--");
-bode(feedback(feedback(10*G_m_simple.NominalValue, 1) * G_bb, 1), "b-")
+bode(feedback(10*G_m_simple.NominalValue, 1) * G_bb, "b-")
 legend("Linearized System", "Linearized * (1 + l_m(jω))", "Linear System");
 hold off;
