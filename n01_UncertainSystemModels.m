@@ -30,15 +30,15 @@ tau = J_eq / B_eq_v;
 
 % Open-loop transfer function θ_L(s) / V_m(s)
 % Equation 1.1.1 from SRV02 Student Workbook
-G_m = tf(K_m, [tau, 1, 0]);
+G_m_simple = tf(K_m, [tau, 1, 0]);
 
 %% BB01 Model
 
 % Values from table 3.1 from BB01 User Manual
 g = 9.81;
 L_beam = 0.4255;
-r_arm = 0.00254;
-r_b = 0.00127;
+r_arm = 0.0254;
+r_b = 0.0127;
 
 % Equation 2.20 from BB01 Student Workbook
 K_bb = g * r_arm * r_b^2 / (7/5 * L_beam * r_b^2);
