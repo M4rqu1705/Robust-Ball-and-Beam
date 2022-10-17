@@ -4,13 +4,13 @@
 os = 20;
 
 % Settling time (s)
-ts = 3;
+Ts = 3;
 
 % Finding omega and zeta
 % Equation 4.4-13 (p. 191)
 zeta = abs(log(os / 100)) / sqrt(pi^2 + log(os / 100)^2);
 % Equation 4.4-14 (p. 191)
-omega_n = abs(log(2 / 100)) / (ts * zeta);
+omega_n = abs(log(2 / 100)) / (Ts * zeta);
 % Damped Frequency (p. 190)
 omega_d = omega_n * sqrt(1 - zeta^2);
 
@@ -54,8 +54,8 @@ syms s complex
 syms K_sym positive
 syms zeta_sym real
 syms omega_n_sym real
-p_sym(s) = K_sym * (s + omega_n_sym /  100) / (s * (s^2 + 2*zeta_sym*omega_n_sym*s + omega_n_sym^2));
-K_res = solve(abs(p_sym(1j*omega_n_sym / 10)) == 1, K_sym);
+p_sym(s) = K_sym * (s + omega_n_sym /  10000) / (s * (s^2 + 2*zeta_sym*omega_n_sym*s + omega_n_sym^2));
+K_res = solve(abs(p_sym(1j*omega_n_sym / 100)) == 1, K_sym);
 K_res = simplify(expand(K_res), "IgnoreAnalyticConstraints", true, "Criterion", "preferReal");
 K = double(subs(K_res, [zeta_sym, omega_n_sym], [zeta, omega_n]));
 
@@ -63,7 +63,7 @@ K = double(subs(K_res, [zeta_sym, omega_n_sym], [zeta, omega_n]));
 p = zpk(tf(sym2poly(num), sym2poly(den)));
 
 % Generate bode plots to visually validate result. 
-% close all; hold on;
-% margin(p);
-% bode(zpk([], [p_1, p_2], omega_n^2));
-% hold off;
+close all; hold on;
+bodemag(p);
+bodemag(zpk([], [p_1, p_2], omega_n^2));
+hold off;

@@ -2,6 +2,7 @@
 
 % Values from table 3.1 from SRV02 User Manual
 R_m = ureal("R_m", 2.6, "Percentage", 12);
+L_m = 0.18E-3;
 k_t = ureal("k_t", 7.68E-3, "Percentage", 12);
 k_m = ureal("k_m", 7.68E-3, "Percentage", 12);
 K_g = 70;
@@ -10,7 +11,7 @@ eta_g = ureal("eta_g", 0.90, "Percentage", 10);
 J_m = ureal("J_m", 3.90E-7, "Percentage", 10);
 
 % Equation 1.1.18 from SRV02 Student Workbook
-J_eq = eta_g * K_g^2 * J_m + J_l;
+J_eq = eta_g * K_g^2 * J_m;
 
 % Equation 1.1.19 from SRV02 Student Workbook
 % B_eq = eta_g * K_g^2 * B_m + B_l;
@@ -46,3 +47,17 @@ K_bb = g * r_arm * r_b^2 / (7/5 * L_beam * r_b^2);
 % Open-loop transfer function X(s) / θ_L(s)
 % Equation 2.21 from BB01 Student Workbook
 G_bb = tf(K_bb, [1, 0, 0]);
+
+%% SS01 Model
+
+% Leader (master)
+R_l = ureal("R_l", 240, "Percentage", 1);
+C_l = ureal("C_l", 1E-6, "Percentage", 20);
+tau_l = R_l * C_l;
+G_l = tf(1, [tau_l, 1]);
+
+% Follower (slave)
+R_f = ureal("R_f", 3.6E3, "Percentage", 1);
+C_f = ureal("C_f", 1E-6, "Percentage", 20);
+tau_f = R_f * C_f;
+G_f = tf(1, [tau_f, 1]);

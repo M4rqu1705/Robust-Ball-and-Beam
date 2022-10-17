@@ -11,6 +11,6 @@ We will divide the project into the following steps:
  3. [X] [**Linearizing the system**](./n03_Linearize.m): The new uncertain system will be linearized around an operating point to help find the upper limit for the multiplicative perturbances l_m(jω).
  4. [X] [**Determining performance characteristics**](./n04_PerformanceCharacteristics.m): The next step is to determine the performance characteristics of the system through the performance function p(jω).
  5. [ ] [**Design Controller**](): Using loop-shaping methods learned in class, we will use the results from the previous steps to design the robust controller.
- 6. [ ] [**Develop VI**](): We need a Quanser VI before running tests on the physical Ball & Beam system. We will use Simulink for this purpose, as we have done in previous courses.
+ 6. [X] [**Develop VI**](): We need a Quanser VI before running tests on the physical Ball & Beam system. We will use Simulink for this purpose, as we have done in previous courses.
  7. [ ] [**Test & Iterate in Simulation**](): After designing the controller, we will simulate it to ensure that we get the desired performance (at least through simulation). 
  8. [ ] [**Test & Iterate in Practice**](): The final step is to test the simulated controller in the physical system and ensure it meets the performance criteria.

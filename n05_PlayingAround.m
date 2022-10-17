@@ -1,7 +1,9 @@
 close all;
 
+% Design the compensator
 G_c = zpk([-0.5, -0.55], [-10, -11], 34);
 
+% Run pre-requisites
 n03_Linearize;
 n04_PerformanceCharacteristics;
 
