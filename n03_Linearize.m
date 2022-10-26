@@ -1,8 +1,9 @@
-%% Finding the entire closed loop system representation
+%% Finding the open-loop system representation
 
 % Run pre-requisite programs:
 n01_UncertainSystemModels;
 n02_NonlinearModelEquations;
+G_c = zpk(1); % Temporary compensator ...
 
 % Open Nonlinear Model
 mdl = "n02_NonlinearModel";
@@ -28,8 +29,21 @@ linsys = ulinearize(mdl, io, op);
 samples = usample(linsys, 100);
 
 % Fit the function. Find l_m(jω)
-[tmp, Info] = ucover(samples, linsys.NominalValue, 4);
-l_m = tf(Info.W1);
+[G_p, Info] = ucover(samples, linsys.NominalValue, 4);
+tmp = G_p;
+G_p = tf(minreal(G_p.NominalValue));
+
+% Equation 5.6-5 from Rorhs, Melsa, Shcultz
+alpha = G_p * (1 - Info.W1*3);
+beta = G_p * (1 + Info.W1*3);
+
+% Uncertain dynamics start to kick in at 3 rad/s
+alpha = alpha * zpk([], -3, 3);
+beta = beta * 1 / zpk([], -3, 3);
+
+% Equation 5.6-6 from Rorhs, Melsa, Shcultz
+l_m = (beta - alpha) / (2 * G_p);
+l_m = 1/minreal(1/l_m);
 
 % Visually validate l_m(jω)
 close all;
