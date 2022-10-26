@@ -1,19 +1,22 @@
-close all;
-
 % Design the compensator
-G_c = zpk([-0.5, -0.55], [-10, -11], 34);
+G_c = zpk([0.1, 0.2, 100, 110], [0.0001, 0.0002, 2.5, 3], 0.01);
 
 % Run pre-requisites
-n03_Linearize;
-n04_PerformanceCharacteristics;
+% n03_Linearize;
+% n04_PerformanceCharacteristics;
 
-lower_bound = p / (1 - l_m);
-upper_bound = (1 - p) / l_m;
-ran = {1, 100};
+lower_bound = p;
+upper_bound = 1 / l_m;
+ran = {1E-2, 1E4};
 
+close all;
 hold on;
 bode(lower_bound, "r--", ran);
 bode(upper_bound, "g--", ran);
-bode(linsys, "b-", ran);
+bode(G_c * linsys.NominalValue, "b-", ran);
 legend("Lower Bound", "Upper Bound", "System");
 hold off;
+
+T = feedback(G_c * linsys.NominalValue, 1) * G_l;
+S = 1 - T;
+bodemag(S * p + T / l_m);

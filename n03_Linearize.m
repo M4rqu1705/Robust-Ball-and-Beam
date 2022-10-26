@@ -16,8 +16,8 @@ options = findopOptions("DisplayReport", "off");
 op = findop(mdl, opspec, options);
 
 % Establish input and output of system to be linearized
-io(1) = linio(strcat(mdl, "/OL Sum"), 1, "input");
-io(2) = linio(strcat(mdl, "/Ball & Beam"), 1, "openoutput");
+io(1) = linio(strcat(mdl, "/Ball & Beam Compensator"), 1, "input");
+io(2) = linio(strcat(mdl, "/Follower Potentiometer Quantizer"), 1, "openoutput");
 
 % Linearize
 linsys = ulinearize(mdl, io, op);
@@ -33,10 +33,11 @@ l_m = tf(Info.W1);
 
 % Visually validate l_m(jω)
 close all;
+ran = {1E-1, 1E5};
 hold on;
-bode(linsys, "r-");
-bode(feedback(10 * G_m_simple.NominalValue, 1) * G_bb, "b-");
-bode(linsys.NominalValue * (1 + l_m), "g-");
-legend("Linearized System", "Linear System", "Linearized * (1 + l_m(jω))");
-set(findall(gcf, 'type', 'line'), 'linewidth', 1.5)
+bode(linsys, "r-", ran);
+bode(feedback(10 * G_m_simple.NominalValue, 1) * G_bb, "b-", ran);
+bode(linsys.NominalValue * (1 + l_m), "g-", ran);
+legend("Linearized Perturbed System", "Simple Linear System", "Perturbed System Upper Bound");
+set(findall(gcf, 'type', 'line'), 'linewidth', 1)
 hold off;

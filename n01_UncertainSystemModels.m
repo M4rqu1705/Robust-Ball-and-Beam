@@ -50,13 +50,13 @@ G_bb = tf(K_bb, [1, 0, 0]);
 
 %% SS01 Model
 
-% Leader (master)
+% Leader (master) RC Filter
 R_l = ureal("R_l", 240, "Percentage", 1);
 C_l = ureal("C_l", 1E-6, "Percentage", 20);
 tau_l = R_l * C_l;
 G_l = tf(1, [tau_l, 1]);
 
-% Follower (slave)
+% Follower (slave) RC Filter
 R_f = ureal("R_f", 3.6E3, "Percentage", 1);
 C_f = ureal("C_f", 1E-6, "Percentage", 20);
 tau_f = R_f * C_f;
