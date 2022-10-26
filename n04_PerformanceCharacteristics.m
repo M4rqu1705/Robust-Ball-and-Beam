@@ -1,4 +1,13 @@
-%% Finding p(jω) for the desired performance characteristics
+%% Set up
+if ~exist("is_main", "var")
+    is_main = mfilename('fullpath');
+    
+    % Run pre-requisite programs
+    n01_UncertainSystemModels;
+    n02_NonlinearModelEquations;
+end
+
+%% Determine the performance characteristics
 
 % %O.S
 os = 20;
@@ -36,34 +45,41 @@ else
     M_p = 1 / (2 * zeta);
 end
 
-%% Determining p(jω)
+%% Determining p(jω) fromm the desired performance characteristics
+% Note: This procedure to find p(jω) was heavily based on Rohrs, Melsa, and
+%       Shultz (p. 346 - 349)
 
-% Criteria:
-% (Transient response performance requirements)
-% 1) p(s) has response similar to second order systems for low frequencies
-% 2) p(s) should be close to 1 for operating frequencies
-% (Steady state response performance requirement)
-% 3) p(s) must jave a pole at the origin.
-% (Other Loop-shaping requirements)
-% 4) p(s) must have a slope of -20 db/dec for 2/3 decades around the crossover frequency
-% 5) p(s) must have phase margin greater than 60 deg
-% 6) p(s) must have high gain margin for low frequencies
+if false
 
-% Obtain required K to meet criteria number 2
-syms s complex
-syms K_sym positive
-syms zeta_sym real
-syms omega_n_sym real
-p_sym(s) = K_sym * (s + omega_n_sym /  100) * (s + omega_n_sym / 1000) / (s^2 * (s^2 + 2*zeta_sym*omega_n_sym*s + omega_n_sym^2));
-K_res = solve(abs(p_sym(1j*omega_n_sym / 10)) == 1, K_sym);
-K_res = simplify(expand(K_res), "IgnoreAnalyticConstraints", true, "Criterion", "preferReal");
-K = double(subs(K_res, [zeta_sym, omega_n_sym], [zeta, omega_n]));
+    % Obtain required K to meet criteria number 2
+    syms s complex
+    syms K_sym positive
+    syms zeta_sym real
+    syms omega_n_sym real
+    p_sym(s) = K_sym * (s + omega_n_sym /  100) * (s + omega_n_sym / 1000) / (s^2 * (s^2 + 2*zeta_sym*omega_n_sym*s + omega_n_sym^2));
+    K_res = solve(abs(p_sym(1j*omega_n_sym / 10)) == 1, K_sym);
+    K_res = simplify(expand(K_res), "IgnoreAnalyticConstraints", true, "Criterion", "preferReal");
+    K = double(subs(K_res, [zeta_sym, omega_n_sym], [zeta, omega_n]));
 
-[num, den] = numden(subs(p_sym(s), [K_sym, zeta_sym, omega_n_sym], [K, zeta, omega_n]));
-p = zpk(tf(sym2poly(num), sym2poly(den)));
+    [num, den] = numden(subs(p_sym(s), [K_sym, zeta_sym, omega_n_sym], [K, zeta, omega_n]));
+    p = zpk(tf(sym2poly(num), sym2poly(den)));
+else
+    p = zpk([-3, -3.1], [0, 0], 0.1);
+end
 
-% Generate bode plots to visually validate result. 
-close all; hold on;
-bodemag(p);
-bodemag(zpk([], [p_1, p_2], omega_n^2));
-hold off;
+if is_main == mfilename('fullpath')
+    close all;
+
+    % Generate bode plots to visually validate result. 
+    region = {omega_n / 100, 100 * omega_n};
+    hold on;
+    bodemag(p, region);
+    bodemag(zpk([], [p_1, p_2], omega_n^2), region);
+    legend("p(jω)", "Second Order System");
+    hold off;
+end
+
+%% Wrap up
+if is_main == mfilename('fullpath')
+    clear is_main
+end

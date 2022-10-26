@@ -1,0 +1,5 @@
+# Referenced Papers
+
+* C. G. Bolivar Vicenty, K. Z. Rosa Medina, and G. Beauchamp Baez, “Control Robusto del Sistema de Bola y Viga,” 2014. Accessed: Oct. 22, 2022 [Online]. Available: http://www.laccei.org/LACCEI2014-Guayaquil/RefereedPapers/RP175.pdf
+
+* C. G. Bolívar-Vicenty and G. Beauchamp, “Modelling the Ball-and-Beam System From Newtonian Mechanics and from Lagrange Methods,” 2014. Accessed: Oct. 17, 2022 [Online]. Available: http://www.laccei.org/LACCEI2014-Guayaquil/RefereedPapers/RP176.pdf

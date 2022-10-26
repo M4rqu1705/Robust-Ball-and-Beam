@@ -1,6 +1,17 @@
-%% SRV02 Model
+%% Set up
+if ~exist("is_main", "var")
+    is_main = mfilename('fullpath');
 
-% Retrieve the values from table 3.1 from SRV02 User Manual
+    % Run pre-requisite programs
+    n01_UncertainSystemModels;
+end
+
+%% Higher-order SRV02 Model
+% Note: This model was derived by hand from equations 1.1.3, 1.1.15, 1.1.20,
+%       and 1.1.21 from SRV02 Student Workbook (p. 2-4)
+
+
+% Retrieve relevant values and important results from script
 n01_UncertainSystemModels;
 
 % Build the denominator
@@ -19,5 +30,9 @@ denominator = [...
 K_m = eta_m * eta_g * k_t * K_g;
 
 % Open-loop transfer function θ_L(s) / V_m(s)
-% Derived by hand from equations 1.1.3, 1.1.15, 1.1.20, and 1.1.21 from SRV02 Student Workbook
-G_m = tf(K_m, denominator);
+G_m_tilde = tf(K_m, denominator);
+
+%% Wrap up
+if is_main == mfilename('fullpath')
+    clear is_main
+end
