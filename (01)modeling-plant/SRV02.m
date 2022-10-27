@@ -1,5 +1,7 @@
 %% SRV02 Model
 
+%% Simple SRV02 Model
+
 % Values from table 3.1 from SRV02 User Manual (p. 11)
 R_m = ureal("R_m", 2.6, "Percentage", 12);
 L_m = 0.18E-3;
@@ -31,38 +33,30 @@ tau = J_eq / B_eq_v;
 
 % Open-loop transfer function θ_L(s) / V_m(s)
 % Equation 1.1.1 from SRV02 Student Workbook (p. 2)
-G_m_tilde_simple = tf(K_m, [tau, 1, 0]);
-G_m_simple = G_m_tilde_simple.NominalValue;
+G_m_simple_tilde = tf(K_m, [tau, 1, 0]);
+G_m_simple = G_m_simple_tilde.NominalValue;
 
-%% BB01 Model
+%% Higher-order SRV02 Model
+% Note: This model was derived by hand from equations 1.1.3, 1.1.15, 1.1.20,
+%       and 1.1.21 from SRV02 Student Workbook (p. 2-4)
 
-% Values from table 3.1 from BB01 User Manual (p. 7)
-g = 9.81;
-L_beam = 0.4255;
-r_arm = 0.0254;
-r_b = 0.0127;
+% Build the denominator
+denominator = [...
+    ... % Third-order coefficient
+    J_eq * L_m, ...
+    ... % Second-order coefficient
+    B_eq * L_m + R_m * J_eq, ...
+    ... % First-order coefficient
+    eta_g * eta_m * k_m * k_t * K_g^2 + B_eq * R_m, ...
+    ... % Zeroeth-order coefficient
+    0 ...
+];
 
-% Equation 2.20 from BB01 Student Workbook (p. 7)
-K_bb = g * r_arm * r_b^2 / (7/5 * L_beam * r_b^2);
+% Gain
+K_m = eta_m * eta_g * k_t * K_g;
 
-% Open-loop transfer function X(s) / θ_L(s)
-% Equation 2.21 from BB01 Student Workbook (p. 8)
-G_bb = tf(K_bb, [1, 0, 0]);
+% Open-loop transfer function θ_L(s) / V_m(s)
+G_m_tilde = tf(K_m, denominator);
 
-%% SS01 Model
-% Note: No manual was found for SS01 Remote Sensing Module.
-%       These results are based on measurements.
-
-% Leader (master) Low-pass RC Filter
-R_l = ureal("R_l", 240, "Percentage", 1);
-C_l = ureal("C_l", 1E-6, "Percentage", 20);
-tau_l = R_l * C_l;
-G_l_tilde = tf(1, [tau_l, 1]);
-G_l = G_l_tilde.NominalValue;
-
-% Follower (slave) Low-pass RC Filter
-R_f = ureal("R_f", 3.6E3, "Percentage", 1);
-C_f = ureal("C_f", 1E-6, "Percentage", 20);
-tau_f = R_f * C_f;
-G_f_tilde = tf(1, [tau_f, 1]);
-G_f = G_f_tilde.NominalValue;
+% Cleaning up
+clear R_m L_m k_t k_m K_g eta_m eta_g J_m J_eq B_eq B_eq_v A_m denominator
