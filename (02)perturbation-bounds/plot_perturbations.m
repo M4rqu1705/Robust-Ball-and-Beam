@@ -1,11 +1,10 @@
 close all;
 
-fig_1 = figure;
-fig_2 = figure;
-fig_3 = figure;
-
 % Visualize relationship between alpha, beta, and G_p_tilde
-figure(fig_1);
+figure("Name", "Uncertainty Regions: Bode Magnitude",...
+    "NumberTitle", "off",...
+    "Units", "normalized",...
+    "Position", [0, 0.52, 0.5, 0.39]);
 region = {1E-3, 1E5};
 hold on;
 bodemag(alpha, region, 'r--');
@@ -16,7 +15,10 @@ grid on;
 hold off;
 
 % Visually validate l_m(jω)
-figure(fig_2);
+figure("Name", "Validate l_m(jω)",...
+    "NumberTitle", "off",...
+    "Units", "normalized",...
+    "Position", [0.5, 0.52, 0.5, 0.39]);
 region = {1E-1, 1E6};
 hold on;
 bode(G_p_tilde, "b-", region);
@@ -26,8 +28,11 @@ legend("G_{p_{tilde}}", "Simple G_p", "G_p * (1 + l_m(jω))");
 grid on;
 hold off;
 
-% Analyze system nyquist plot
-figure(fig_3);
+% Analyze plant's nyquist plot
+figure("Name", "G_p Nyquist",...
+    "NumberTitle", "off",...
+    "Units", "normalized",...
+    "Position", [0, 0.045, 0.5, 0.39]);
 region = {1E-1, 1E10};
 hold on;
 nyquist(G_p_tilde, region, "b--");
@@ -37,4 +42,4 @@ grid on;
 hold off;
 
 % Cleaning up
-clear region fig_1 fig_2 fig_3
+clear region sw sh

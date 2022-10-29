@@ -26,15 +26,15 @@ B_eq_v = eta_g * K_g^2 * eta_m *  k_t * k_m / R_m + B_eq;
 A_m = eta_g * K_g * eta_m * k_t / R_m;
 
 % Answer 1.2.3 from SRV02 Instructor Workbook (p. 8)
-K_m = A_m / B_eq_v;
+K_m_simple = A_m / B_eq_v;
 
 % Answer 1.2.4 from SRV02 Instructor Workbook (p. 8)
-tau = J_eq / B_eq_v;
+tau_simple = J_eq / B_eq_v;
 
 % Open-loop transfer function θ_L(s) / V_m(s)
 % Equation 1.1.1 from SRV02 Student Workbook (p. 2)
-G_m_simple_tilde = tf(K_m, [tau, 1, 0]);
-G_m_simple = G_m_simple_tilde.NominalValue;
+G_m_simple_tilde = tf(K_m_simple, [tau_simple, 1, 0]);
+G_m_simple = tf(G_m_simple_tilde.NominalValue);
 
 %% Higher-order SRV02 Model
 % Note: This model was derived by hand from equations 1.1.3, 1.1.15, 1.1.20,
@@ -52,11 +52,12 @@ denominator = [...
     0 ...
 ];
 
-% Gain
+% Motor gain
 K_m = eta_m * eta_g * k_t * K_g;
 
 % Open-loop transfer function θ_L(s) / V_m(s)
 G_m_tilde = tf(K_m, denominator);
+G_m = tf(G_m_tilde.NominalValue);
 
 % Cleaning up
 clear R_m L_m k_t k_m K_g eta_m eta_g J_m J_eq B_eq B_eq_v A_m denominator

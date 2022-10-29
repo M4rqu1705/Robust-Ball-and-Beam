@@ -1,13 +1,8 @@
 close all;
 
-fig_1 = figure;
-fig_2 = figure;
-fig_3 = figure;
-fig_4 = figure;
-fig_5 = figure;
-
 % See fundamental loop-shaping plot
-figure(fig_1);
+figure("Name", "Loop Shaping",...
+    "NumberTit6le", "off");
 region = {1E-2, 1E2};
 hold on;
 yline(0, "k--");
@@ -19,7 +14,8 @@ grid on;
 hold off;
 
 % Visualize some robustness stability criteria
-figure(fig_2)
+figure("Name", "Some Robustness Criteria",...
+    "NumberTitle", "off");
 region = {1E-2, 1E2};
 hold on;
 T = feedback(G_bb * feedback(G_m_tilde * 10, 1) * G_c, G_f_tilde) * G_f_tilde * G_l_tilde;
@@ -33,7 +29,8 @@ grid on;
 hold off;
 
 % Visualize THE robustness stability criterion
-figure(fig_3);
+figure("Name", "Robustness Stability Criterion",...
+    "NumberTitle", "off");
 region = {1E-10, 1E10};
 hold on;
 yline(0, "k--");
@@ -42,15 +39,16 @@ grid on;
 hold off;
 
 % Visualize closed-loop step response
-% Visualize open-loop stability with Nyquist
-figure(fig_4);
+figure("Name", "T(s) Step Response",...
+    "NumberTitle", "off");
 hold on;
-step(G_tilde);
+step(feedback(G_tilde, 1) * G_f * G_l);
 grid on;
 hold off;
 
 % Visualize open-loop stability with Nyquist
-figure(fig_5);
+figure("Name", "G_p Nyquist",...
+    "NumberTitle", "off");
 region = {1E-1, 1E10};
 hold on;
 nyquist(G_tilde, region, "b--");

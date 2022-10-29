@@ -1,6 +1,10 @@
 close all;
 
-% Generate bode plots to visually validate result. 
+% Generate bode plots to visually validate result.
+figure("Name", "Performance Function",...
+    "NumberTitle", "off",...
+    "Units", "normalized",...
+    "Position", [0, 0.04, 1, 0.875]);
 region = {omega_n / 100, 100 * omega_n};
 hold on;
 bodemag(p, region);

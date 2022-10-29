@@ -1,7 +1,5 @@
 %% Design and test the compensator
-zeroes = [];
-poles = [];
-G_c = zpk(zeroes, poles, 1 * abs(prod(poles) / prod(zeroes)));
+G_c = 0.4 * tf([6.6677, 1], [0.3333]);
 
 G_tilde = G_p_tilde * G_c;
 G = G_tilde.NominalValue;
@@ -11,10 +9,10 @@ close all;
 region = {1E-2, 1E2};
 hold on;
 yline(0, "k--");
-bodemag(p, "r--", region);
-bodemag(1/l_m, "g--", region);
-bodemag(G, "b-", region);
-legend("0dB", "p", "1/l_m", "G");
+bode(p, "r--", region);
+bode(1/l_m, "g--", region);
+bode(G, "b-", region);
+legend("p", "1/l_m", "G");
 grid on;
 hold off;
 

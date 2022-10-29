@@ -30,6 +30,6 @@ G_p_tilde = ulinearize(mdl, io, op);
 % Extract minimal nominal model
 G_p = zpk(minreal(G_p_tilde.NominalValue));
 
-% Cleaning up
+% Clean up
 set_param(strcat(mdl, "/Ball & Beam Compensator"), "sys", compensator);
 clear mdl opspec options op io compensator
