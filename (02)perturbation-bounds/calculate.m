@@ -11,8 +11,8 @@ samples = usample(G_p_tilde, 500);
 [~, Info] = ucover(samples, G_p, 4);
 
 % Equation 5.6-5 from Rorhs, Melsa, and Shcultz (p. 275)
-alpha = G_p * (1 - Info.W1*3);
-beta = G_p * (1 + Info.W1*3);
+alpha = G_p * (1 - Info.W1);
+beta = G_p * (1 + Info.W1);
 
 % Uncertain dynamics kick in at 3 rad/s (Bolivar Vicenty, et al. p. 6)
 alpha = alpha * zpk([], -3, 3);

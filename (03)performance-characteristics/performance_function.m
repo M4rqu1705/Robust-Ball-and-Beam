@@ -20,5 +20,6 @@ if false
     % Cleaning up
     clear s K_sym zeta_sym omega_n_sym p_sym K_res K num den
 else
-    p = zpk([-3, -3.1], [0, 0], 1/100);
+    omega_disturbances = 20;
+    p = zpk([-omega_disturbances, -omega_disturbances], [0, 0], 1/1200);
 end

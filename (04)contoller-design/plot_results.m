@@ -2,11 +2,11 @@ close all;
 
 % See fundamental loop-shaping plot
 figure("Name", "Loop Shaping",...
-    "NumberTit6le", "off");
+    "NumberTitle", "off");
 region = {1E-2, 1E2};
 hold on;
 yline(0, "k--");
-bodemag(p, "r--", region);
+bodemag\(p, "r--", region);
 bodemag(1/l_m, "g--", region);
 bodemag(G, "b-", region);
 legend("0dB", "p", "1/l_m", "G");
