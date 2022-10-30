@@ -5,15 +5,17 @@
 
 % G_c = 0.075 * zpk([-1E-1], [-1E1], 100) * zpk([-5E-2], [-5E-3], 10); % Alberto
 % G_c = 0.12 * zpk([-1E-1], [-1E1], 100) * zpk([-5E-2], [-5E-3], 10); % Dylan
-G_c = zpk([-1E-2, -2E-2], [-1E-1, -2E-1], 1E4);
-
+zeroes = [-0.1, -100];
+poles = [-10, -11];
+G_c = zpk(zeroes, poles, 1 / K_bb * abs(prod(poles) / prod(zeroes)));
+G_c = zpk([-0.4], [-10], 62.5);
 
 G_tilde = G_p_tilde * G_c;
-G = G_tilde.NominalValue;
+G = zpk(G_tilde.NominalValue);
 
 % See fundamental loop-shaping plot
 close all;
-region = {1E-2, 1E2};
+region = {1E-5, 1E5};
 hold on;
 bode(p, "r--", region);
 bode(1/l_m, "g--", region);
